@@ -9,31 +9,40 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v2
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18'
+#    - name: Setup Node.js
+#      uses: actions/setup-node@v3
+#      with:
+#        node-version: '18'
 
     - name: Install Zowe CLI
-      run: npm install -g @zowe/cli@latest
+      run: |
+        npm install -g @zowe/cli@latest
+        echo "$(npm bin -g)" >> $GITHUB_PATH
     
     - name: Set up Java
       uses: actions/setup-java@v2
       with:
         distribution: 'temurin'
         java-version: '11'
-    
+
+    - name: Set up Zowe CLI Profile
+      env:
+        ZOWE_USERNAME: ${{ secrets.ZOWE_USERNAME }}
+        ZOWE_PASSWORD: ${{ secrets.ZOWE_PASSWORD }}
+      run: |
+        zowe config set profiles.zosmf.properties.host 204.90.115.200
+        zowe config set profiles.zosmf.properties.port 10443
+        zowe config set profiles.zosmf.properties.username "$ZOWE_USERNAME"
+        zowe config set profiles.zosmf.properties.password "$ZOWE_PASSWORD"
+        zowe config set profiles.zosmf.properties.rejectUnauthorized false
+        zowe config set profiles.zosmf.type zosmf
+
     - name: Setup Mainframe Environment and Upload COBOL Check
       env:
-        ZOWE_OPT_HOST: 204.90.115.200
-        ZOWE_OPT_PORT: 10443
-        ZOWE_OPT_USER: ${{ secrets.ZOWE_USERNAME }}
-        ZOWE_OPT_PASSWORD: ${{ secrets.ZOWE_PASSWORD }}
-        ZOWE_OPT_REJECT_UNAUTHORIZED: false
-#        ZOWE_USERNAME: ${{ secrets.ZOWE_USERNAME }}
-#        ZOWE_PASSWORD: ${{ secrets.ZOWE_PASSWORD }}
+        ZOWE_USERNAME: ${{ secrets.ZOWE_USERNAME }}
+        ZOWE_PASSWORD: ${{ secrets.ZOWE_PASSWORD }}
       run: |
         chmod +x .github/scripts/zowe_operations.sh
         .github/scripts/zowe_operations.sh
