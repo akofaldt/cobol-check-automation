@@ -4,7 +4,7 @@
 
 # Convert username to lowercase
 LOWERCASE_USERNAME=$(echo "$ZOWE_USERNAME" | tr '[:upper:]' '[:lower:]')
-ZOWE_OPTS='--user "$ZOWE_USERNAME" --password "$ZOWE_PASSWORD" --host "$ZOWE_HOST" --port "$ZOWE_PORT" --reject-unauthorized false'
+ZOWE_OPTS=`--user "$ZOWE_USERNAME" --password "$ZOWE_PASSWORD" --host "$ZOWE_HOST" --port "$ZOWE_PORT" --reject-unauthorized false`
 
 # Check if directory exists , create if it doesn't
 echo zowe zos-files list uss-files "/z/$LOWERCASE_USERNAME" $ZOWE_OPTS
