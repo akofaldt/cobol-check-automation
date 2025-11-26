@@ -2,7 +2,7 @@ name: COBOL Check Automation
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
   cobol-check:
@@ -11,17 +11,21 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Install Zowe CLI
-      run: |
-        npm install -g @zowe/cli@latest
-        echo "$(npm bin -g)" >> $GITHUB_PATH
-    
     - name: Set up Java
       uses: actions/setup-java@v2
       with:
-        distribution: 'temurin'
+        distribution: 'zulu'
         java-version: '11'
 
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '22'
+
+    - name: Install Zowe CLI
+      run: |
+        npm install -g @zowe/cli@latest
+    
     - name: Setup Mainframe Environment and Upload COBOL Check
       env:
         ZOWE_USERNAME: ${{ secrets.ZOWE_USERNAME }}
@@ -40,4 +44,4 @@ jobs:
         ZOWE_PORT: 10443
       run: |
         chmod +x .github/scripts/mainframe_operations.sh
-        sshpass -p "$ZOWE_PASSWORD" ssh -o StrictHostKeyChecking=no $ZOWE_USERNAME@$ZOWE_HOST 'sh -s' < .github/scripts/mainframe_operations.sh
+        sshpass -p "$ZOWE_PASSWORD" ssh -o StrictHostKeyChecking=no $ZOWE_USERNAME@$ZOWE_HOST zsh ./mainframe_operations.sh
