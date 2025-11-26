@@ -40,4 +40,5 @@ jobs:
         ZOWE_PORT: 10443
       run: |
         chmod +x .github/scripts/mainframe_operations.sh
+        chmod +x cobolcheck/cobolcheck.sh
         .github/scripts/mainframe_operations.sh
