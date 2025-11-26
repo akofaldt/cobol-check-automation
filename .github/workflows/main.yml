@@ -43,5 +43,10 @@ jobs:
         ZOWE_HOST: 204.90.115.200
         ZOWE_PORT: 10443
       run: |
+        pwd
+        ls -al
+        echo "Step 1 ..."
         chmod +x .github/scripts/mainframe_operations.sh
+        echo "Step 2 ..."
         sshpass -p "$ZOWE_PASSWORD" ssh -o StrictHostKeyChecking=no $ZOWE_USERNAME@$ZOWE_HOST zsh .github/scripts/mainframe_operations.sh
+        echo "Step 3 ..."
