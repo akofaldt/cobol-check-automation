@@ -10,6 +10,9 @@ export PATH=$PATH:/usr/lpp/zowe/cli/node/bin
 # Check Java availability
 java -version
 
+# get ZOWE_USERNAME from environment
+ZOWE_USERNAME=$(whoami)
+
 # Check Zowe availability
 zowe --version
 
