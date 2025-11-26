@@ -48,5 +48,5 @@ jobs:
         echo "Step 1 ..."
         chmod +x .github/scripts/mainframe_operations.sh
         echo "Step 2 ..."
-        sshpass -p "$ZOWE_PASSWORD" ssh -o StrictHostKeyChecking=no $ZOWE_USERNAME@$ZOWE_HOST zsh .github/scripts/mainframe_operations.sh
+        sshpass -p "$ZOWE_PASSWORD" ssh -o StrictHostKeyChecking=no $ZOWE_USERNAME@$ZOWE_HOST zsh < .github/scripts/mainframe_operations.sh
         echo "Step 3 ..."
