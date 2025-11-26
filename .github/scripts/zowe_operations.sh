@@ -7,7 +7,6 @@ LOWERCASE_USERNAME=$(echo "$ZOWE_USERNAME" | tr '[:upper:]' '[:lower:]')
 ZOWE_OPTS="--user $ZOWE_USERNAME --password $ZOWE_PASSWORD --host $ZOWE_HOST --port $ZOWE_PORT --reject-unauthorized false"
 
 # Check if directory exists , create if it doesn't
-zowe zos-files list uss-files "/z/$LOWERCASE_USERNAME" $ZOWE_OPTS
 if ! zowe zos-files list uss-files "/z/$LOWERCASE_USERNAME/cobolcheck" $ZOWE_OPTS &>/dev/null; then
   echo "Directory does not exist. Creating it ..."
   zowe zos-files create uss-directory /z/$LOWERCASE_USERNAME/cobolcheck $ZOWE_OPTS
